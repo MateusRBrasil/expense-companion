@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users } from 'lucide-react';
+import { LayoutDashboard, Users, CreditCard } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function MobileNav() {
@@ -8,6 +8,7 @@ export function MobileNav() {
   const navItems = [
     { href: '/', label: 'Grupos', icon: LayoutDashboard },
     { href: '/pessoas', label: 'Pessoas', icon: Users },
+    { href: '/mensal', label: 'Mensal', icon: CreditCard },
   ];
 
   return (

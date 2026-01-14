@@ -10,7 +10,7 @@ import { PaymentDialog } from '@/components/transactions/PaymentDialog';
 import { GroupChart } from '@/components/groups/GroupChart';
 import { PersonBalanceCard } from '@/components/groups/PersonBalanceCard';
 import { useExpenseData } from '@/hooks/useExpenseData';
-import { Group, Transaction, Person, Payment } from '@/lib/db';
+import { Group, Transaction, Person, Payment, Card as CardType } from '@/lib/db';
 import { formatCurrency } from '@/lib/format';
 
 const GroupDashboard = () => {
@@ -18,6 +18,7 @@ const GroupDashboard = () => {
   const {
     groups,
     persons,
+    cards,
     payments,
     loading,
     getGroupTransactions,
@@ -299,6 +300,7 @@ const GroupDashboard = () => {
         onOpenChange={setTransactionDialogOpen}
         groupId={group.id}
         persons={groupPersons}
+        cards={cards}
         onSubmit={handleCreateTransaction}
       />
 
@@ -308,6 +310,7 @@ const GroupDashboard = () => {
           onOpenChange={() => setEditingTransaction(null)}
           groupId={group.id}
           persons={groupPersons}
+          cards={cards}
           transaction={editingTransaction}
           onSubmit={handleEditTransaction}
         />

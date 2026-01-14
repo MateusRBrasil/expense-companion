@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Moon, Sun, Wallet, Users, LayoutDashboard } from 'lucide-react';
+import { Moon, Sun, Wallet, Users, LayoutDashboard, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
@@ -11,6 +11,7 @@ export function Header() {
   const navItems = [
     { href: '/', label: 'Grupos', icon: LayoutDashboard },
     { href: '/pessoas', label: 'Pessoas', icon: Users },
+    { href: '/mensal', label: 'Mensal', icon: CreditCard },
   ];
 
   return (

@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import Index from "./pages/Index";
 import PersonsPage from "./pages/PersonsPage";
 import GroupDashboard from "./pages/GroupDashboard";
+import MonthlyExpensesPage from "./pages/MonthlyExpensesPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/pessoas" element={<PersonsPage />} />
             <Route path="/grupo/:id" element={<GroupDashboard />} />
+            <Route path="/mensal" element={<MonthlyExpensesPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
