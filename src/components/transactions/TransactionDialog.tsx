@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Transaction, Person, PersonSplit } from '@/lib/db';
+import { Transaction, Person, PersonSplit, Card } from '@/lib/db';
 import { formatCurrency } from '@/lib/format';
 
 interface TransactionDialogProps {
@@ -24,6 +24,7 @@ interface TransactionDialogProps {
   onOpenChange: (open: boolean) => void;
   groupId: string;
   persons: Person[];
+  cards?: Card[];
   transaction?: Transaction;
   onSubmit: (data: any) => void;
 }
@@ -33,6 +34,7 @@ export function TransactionDialog({
   onOpenChange,
   groupId,
   persons,
+  cards = [],
   transaction,
   onSubmit,
 }: TransactionDialogProps) {
@@ -40,6 +42,7 @@ export function TransactionDialog({
   const [totalAmount, setTotalAmount] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [paidByPersonId, setPaidByPersonId] = useState('');
+  const [cardId, setCardId] = useState<string>('');
   const [splits, setSplits] = useState<Record<string, { isIncluded: boolean; fixedAmount: string }>>({});
 
   useEffect(() => {
@@ -48,6 +51,7 @@ export function TransactionDialog({
       setTotalAmount(transaction.totalAmount.toString());
       setDate(new Date(transaction.date).toISOString().split('T')[0]);
       setPaidByPersonId(transaction.paidByPersonId);
+      setCardId(transaction.cardId || '');
       
       const splitMap: Record<string, { isIncluded: boolean; fixedAmount: string }> = {};
       transaction.splits.forEach((s) => {
@@ -62,6 +66,7 @@ export function TransactionDialog({
       setTotalAmount('');
       setDate(new Date().toISOString().split('T')[0]);
       setPaidByPersonId(persons[0]?.id || '');
+      setCardId('');
       
       const initialSplits: Record<string, { isIncluded: boolean; fixedAmount: string }> = {};
       persons.forEach((p) => {
@@ -120,6 +125,7 @@ export function TransactionDialog({
     const data = {
       ...(transaction && { id: transaction.id, createdAt: transaction.createdAt }),
       groupId,
+      cardId: cardId || undefined,
       description: description.trim(),
       totalAmount: parseFloat(totalAmount),
       date: new Date(date),
@@ -213,6 +219,25 @@ export function TransactionDialog({
               </SelectContent>
             </Select>
           </div>
+
+          {cards.length > 0 && (
+            <div className="space-y-2">
+              <Label htmlFor="card">Cartão/Conta (opcional)</Label>
+              <Select value={cardId} onValueChange={setCardId}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o cartão" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Nenhum</SelectItem>
+                  {cards.map((card) => (
+                    <SelectItem key={card.id} value={card.id}>
+                      {card.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
 
           <div className="space-y-2">
             <Label>Divisão por Pessoa</Label>
